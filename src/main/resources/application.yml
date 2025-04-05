@@ -1,4 +1,7 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
+
   task:
     execution:
       pool:
@@ -14,6 +17,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   jpa:
+    defer-datasource-initialization: true # 테이블 다 만든 다음에 data.sql 실행
     show-sql: true
     database: postgresql
     hibernate:
@@ -26,6 +30,9 @@ spring:
           use_streams_for_binary: true
           lob:
             non_contextual_creation: true
+  sql:
+    init:
+      mode: always
 
 
 logging:

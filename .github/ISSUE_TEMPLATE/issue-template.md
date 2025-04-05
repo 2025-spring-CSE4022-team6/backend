@@ -1,12 +1,10 @@
 ---
 name: Issue Template
 about: Describe this issue template's purpose here.
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
-
 
 ## :sparkles: 어떤 기능인가요?
 
@@ -15,6 +13,7 @@ assignees: ''
 ## 작업 상세 내용
 
 ## :white_check_mark: Todo
+
 - [ ] TODO
 - [ ] TODO
 - [ ] TODO

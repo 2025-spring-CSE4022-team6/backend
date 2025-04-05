@@ -1,0 +1,16 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:15
+    container_name: devops-postgres
+    ports:
+      - "5433:5432"  # 외부 5433 → 내부 5432 포트
+    environment:
+      POSTGRES_DB: team6_db       # 사용할 DB 이름
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
