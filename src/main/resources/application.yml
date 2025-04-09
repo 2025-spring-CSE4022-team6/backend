@@ -38,10 +38,7 @@ logging:
     path: logs/app.log
 
 server:
-<<<<<<< HEAD
-=======
   port: 8081 
->>>>>>> afb9f62e89a039abc2c3660b31fb5bd357391fbb
   error:
     include-message: always
     include-stacktrace: always
