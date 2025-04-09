@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter @Setter
 public class SimpleReviewDto {
     private String title;
-    private double Score;
+    private double score;
 }
