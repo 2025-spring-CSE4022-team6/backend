@@ -12,12 +12,15 @@ spring:
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
-
+  sql:
+    init:
+      mode: always
   jpa:
+    defer-datasource-initialization: true
     show-sql: true
     database: postgresql
     hibernate:
-      ddl-auto: create # 테이블 자동 생성 (운영 환경에서는 'none' 또는 'validate' 추천)
+      ddl-auto: create-drop # 테이블 자동 생성 (운영 환경에서는 'none' 또는 'validate' 추천)
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect # PostgreSQL에 맞는 Hibernate dialect
@@ -33,3 +36,8 @@ logging:
     root: debug
   file:
     path: logs/app.log
+
+server:
+  error:
+    include-message: always
+    include-stacktrace: always

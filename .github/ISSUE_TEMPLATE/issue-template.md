@@ -7,13 +7,6 @@ assignees: ''
 
 ---
 
----
-
-title: ''
-labels: ''
-assignees: ''
-
----
 
 ## :sparkles: 어떤 기능인가요?
 
