@@ -6,14 +6,14 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ApiResponse<T> {
-    private boolean success;
+    private boolean isSuccess;
     private int code;
     private String message;
     private T data;
 
     public ApiResponse(boolean success,int code,String message){
         this.message = message;
-        this.success = success;
+        this.isSuccess= success;
         this.code = code;
     }
 }
