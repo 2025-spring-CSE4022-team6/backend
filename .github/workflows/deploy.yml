@@ -25,12 +25,12 @@ jobs:
       - name: 🛠️ Build JAR with Gradle
         run: |
           chmod +x gradlew  # Gradle 실행 권한 부여
-          ./gradlew build -x test  # 테스트 제외하고 빌드
+          ./gradlew clean build -x test  # 테스트 제외하고 빌드
 
       # 🛠️ Docker 이미지 빌드 및 Docker Hub에 Push
       - name: 🛠️ Build and Push Docker Image
         run: |
-          docker build -t naaadang/devops-team6 .
+          docker build --no-cache -t naaadang/devops-team6 .
           docker tag naaadang/devops-team6 naaadang/devops-team6:latest
           docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
           docker push naaadang/devops-team6:latest
