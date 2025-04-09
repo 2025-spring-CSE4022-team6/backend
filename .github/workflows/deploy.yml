@@ -55,7 +55,7 @@ jobs:
             cd ~/team6
 
             echo "🔄 최신 코드 Pull"
-            git pull origin master
+            git pull origin main
 
             echo "🛠️ 도커 컨테이너 중지"
             docker-compose down
