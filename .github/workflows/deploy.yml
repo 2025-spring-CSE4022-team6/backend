@@ -1,52 +1,74 @@
+name: Deploy to EC2
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
-      # Java 17 설정
-      - name: Set up JDK 17
+    steps:
+      # 🔹 레포지토리 체크아웃
+      - name: 🔹 Checkout Repository
+        uses: actions/checkout@v3
+
+      # 🛠️ JDK 17 설치
+      - name: 🛠️ Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 17
           distribution: 'temurin'
+          java-version: '17'
 
-      # Gradle Wrapper에 실행 권한 추가
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x ./gradlew
+      # 🛠️ Gradle로 JAR 파일 빌드
+      - name: 🛠️ Build JAR with Gradle
+        run: |
+          chmod +x gradlew  # Gradle 실행 권한 부여
+          ./gradlew build -x test  # 테스트 제외하고 빌드
 
-      # Gradle로 JAR 파일 빌드
-      - name: Build Application
-        run: ./gradlew clean build
-
-      # Docker Hub 로그인
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # Docker 이미지 빌드 및 푸시
-      - name: Build and Push Docker Image
+      # 🛠️ Docker 이미지 빌드 및 Docker Hub에 Push
+      - name: 🛠️ Build and Push Docker Image
         run: |
           docker build -t naaadang/devops-team6 .
-          docker push naaadang/devops-team6
+          docker tag naaadang/devops-team6 naaadang/devops-team6:latest
+          docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+          docker push naaadang/devops-team6:latest
 
-      # Docker Compose로 애플리케이션 배포
-      - name: Deploy Application
+      # 🛠️ EC2 SSH 키 저장 & 권한 설정
+      - name: 🛠️ Save SSH Key and Set Permissions
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ls -al ~/.ssh  # 디버깅용 (정상적으로 생성되었는지 확인)
+
+      # 🚀 EC2에 SSH 접속 후 배포 실행
+      - name: 🚀 Deploy to EC2 via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
+          username: ubuntu
           key: ${{ secrets.SERVER_KEY }}
           port: 22
           script: |
-            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            cd /home/ubuntu/team6
-            docker-compose down || true
-            docker-compose pull  #최신 이미지로 업데이트
-            docker-compose up -d #새 컨테이너 실행니
+            cd ~/team6
+
+            echo "🔄 최신 코드 Pull"
+            git pull origin master
+
+            echo "🛠️ 도커 컨테이너 중지"
+            docker-compose down
+
+            echo "🛠️ 최신 Docker 이미지 Pull"
+            docker pull naaadang/devops-team6:latest
+
+            echo "🛠️ DB 먼저 실행"
+            docker-compose up -d database
+            sleep 10  # 🚀 DB가 먼저 실행될 시간을 줌
+
+            echo "🚀 Spring 애플리케이션 실행"
+            docker-compose up -d app
+
+            echo "🛠️ 실행 중인 컨테이너 확인"
+            docker ps
