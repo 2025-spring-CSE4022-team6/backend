@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 @Getter
 public class ReviewDetailResponse {
-    private Long id;
-    private String title;
-    private String comment;
-    private Long score;
-    private String writer;
-    private String placeName;
-    private List<String> tags;
+    private final Long id;
+    private final String title;
+    private final String comment;
+    private final double score;
+    private final String writer;
+    private final String placeName;
+    private final List<String> tags;
 
     public ReviewDetailResponse(Review review) {
         this.id = review.getId();
