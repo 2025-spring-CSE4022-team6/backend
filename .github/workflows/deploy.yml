@@ -14,10 +14,6 @@ jobs:
       - name: 🔹 Checkout Repository
         uses: actions/checkout@v3
 
-      # 🐳 Docker buildx 세팅 (ARM64 대응)
-      - name: 🐳 Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
       # 🛠️ JDK 17 설치
       - name: 🛠️ Set up JDK 17
         uses: actions/setup-java@v3
@@ -28,17 +24,16 @@ jobs:
       # 🛠️ Gradle로 JAR 파일 빌드
       - name: 🛠️ Build JAR with Gradle
         run: |
-          chmod +x gradlew
-          ./gradlew build -x test
+          chmod +x gradlew  # Gradle 실행 권한 부여
+          ./gradlew build -x test  # 테스트 제외하고 빌드
 
-      # 🐳 Docker 이미지 빌드 및 푸시 (ARM64 플랫폼)
-      - name: 🐳 Build and Push Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: naaadang/devops-team6:latest
-          platforms: linux/arm64
+      # 🛠️ Docker 이미지 빌드 및 Docker Hub에 Push
+      - name: 🛠️ Build and Push Docker Image
+        run: |
+          docker build -t naaadang/devops-team6 .
+          docker tag naaadang/devops-team6 naaadang/devops-team6:latest
+          docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+          docker push naaadang/devops-team6:latest
 
       # 🛠️ EC2 SSH 키 저장 & 권한 설정
       - name: 🛠️ Save SSH Key and Set Permissions
@@ -46,6 +41,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ls -al ~/.ssh  # 디버깅용 (정상적으로 생성되었는지 확인)
 
       # 🚀 EC2에 SSH 접속 후 배포 실행
       - name: 🚀 Deploy to EC2 via SSH
@@ -59,17 +55,17 @@ jobs:
             cd ~/team6
 
             echo "🔄 최신 코드 Pull"
-            git pull origin main
+            git pull origin master
 
             echo "🛠️ 도커 컨테이너 중지"
-            docker-compose down || true
+            docker-compose down
 
             echo "🛠️ 최신 Docker 이미지 Pull"
             docker pull naaadang/devops-team6:latest
 
             echo "🛠️ DB 먼저 실행"
             docker-compose up -d database
-            sleep 10
+            sleep 10  # 🚀 DB가 먼저 실행될 시간을 줌
 
             echo "🚀 Spring 애플리케이션 실행"
             docker-compose up -d app
