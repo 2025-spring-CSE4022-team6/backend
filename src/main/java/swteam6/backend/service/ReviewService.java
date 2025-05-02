@@ -3,7 +3,7 @@ package swteam6.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import swteam6.backend.dto.response.ReviewCreateDto;
+import swteam6.backend.dto.request.ReviewCreateDto;
 import swteam6.backend.dto.response.ReviewResponseDto;
 import swteam6.backend.entity.Place;
 import swteam6.backend.entity.Review;
@@ -11,8 +11,6 @@ import swteam6.backend.entity.User;
 import swteam6.backend.repository.PlaceRepository;
 import swteam6.backend.repository.ReviewRepository;
 import swteam6.backend.repository.UserRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
