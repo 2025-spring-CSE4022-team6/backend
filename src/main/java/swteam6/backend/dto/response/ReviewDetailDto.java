@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class ReviewDetailResponse {
+public class ReviewDetailDto {
     private final Long id;
     private final String title;
     private final String comment;
@@ -15,13 +15,13 @@ public class ReviewDetailResponse {
     private final String placeName;
     private final List<String> tags;
 
-    public ReviewDetailResponse(Review review) {
+    public ReviewDetailDto(Review review) {
         this.id = review.getId();
         this.title = review.getTitle();
         this.comment = review.getComment();
         this.score = review.getScore();
-        this.writer = review.getUser().getNickname();         // User 엔티티에 getUsername()이 있다고 가정
-        this.placeName = review.getPlace().getName();         // Place 엔티티에 getName()이 있다고 가정
+        this.writer = review.getUser().getNickname();
+        this.placeName = review.getPlace().getName();
         this.tags = review.getTags().stream()
                 .map(tag -> tag.getTag().toString()) // enum -> 문자열
                 .collect(Collectors.toList());
