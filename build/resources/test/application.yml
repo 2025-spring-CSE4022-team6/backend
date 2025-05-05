@@ -1,0 +1,44 @@
+spring:
+  task:
+    execution:
+      pool:
+        core-size: 2
+        max-size: 4
+        queue-capacity: 50
+      thread-name-prefix: "Async-"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/devopsdb
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop # 테이블 자동 생성 (운영 환경에서는 'none' 또는 'validate' 추천)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect # PostgreSQL에 맞는 Hibernate dialect
+        format_sql: true # SQL을 보기 쉽게 출력
+        jdbc :
+          use_streams_for_binary: true
+          lob:
+            non_contextual_creation: true
+
+
+logging:
+  level:
+    root: debug
+    org.hibernate.SQL: debug #실행되는 SQL 쿼리를 로그로 출력
+  file:
+    path: logs/app.log
+
+server:
+  error:
+    include-message: always
+    include-stacktrace: always

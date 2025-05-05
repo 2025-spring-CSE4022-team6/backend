@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlaceService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">swteam6.backend.service</a> &gt; <span class="el_source">PlaceService.java</span></div><h1>PlaceService.java</h1><pre class="source lang-java linenums">package swteam6.backend.service;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
+import org.springframework.stereotype.Service;
+import swteam6.backend.dto.response.PlaceDto;
+import swteam6.backend.dto.response.SimpleReviewDto;
+import swteam6.backend.entity.Place;
+import swteam6.backend.entity.Review;
+import swteam6.backend.repository.PlaceRepository;
+import swteam6.backend.repository.ReviewRepository;
+import swteam6.backend.repository.UserRepository;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class PlaceService {
+    private final PlaceRepository placeRepository;
+    private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
+
+
+
+    //메인화면 조회
+
+    //음식점 상세페이지 조회
+    public PlaceDto getPlaceList(Long id) {
+<span class="nc" id="L30">        Place place=placeRepository.findById(id).</span>
+<span class="nc" id="L31">                orElseThrow(()-&gt;new EntityNotFoundException(&quot;해당 ID의 장소를 찾을 수 없습니다.&quot;));</span>
+
+
+<span class="nc" id="L34">        List&lt;Review&gt; reviews = reviewRepository.findTop3ByPlaceOrderByIdDesc(place);</span>
+
+<span class="nc" id="L36">        List&lt;SimpleReviewDto&gt; reviewDtos = reviews.stream()</span>
+<span class="nc" id="L37">                .map(r -&gt; {</span>
+<span class="nc" id="L38">                    SimpleReviewDto dto = new SimpleReviewDto();</span>
+<span class="nc" id="L39">                    dto.setTitle(r.getTitle());</span>
+<span class="nc" id="L40">                    dto.setScore(r.getScore());</span>
+<span class="nc" id="L41">                    return dto;</span>
+                })
+<span class="nc" id="L43">                .toList();</span>
+
+<span class="nc" id="L45">        return PlaceDto.builder()</span>
+<span class="nc" id="L46">                .name(place.getName())</span>
+<span class="nc" id="L47">                .score(place.getScore())</span>
+<span class="nc" id="L48">                .reviews(reviewDtos)</span>
+<span class="nc" id="L49">                .build();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

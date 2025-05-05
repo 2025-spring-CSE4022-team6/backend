@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="app_user")
+@Table(name = "app_user")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,10 +22,10 @@ public class User {
     @Column(nullable = false)
     private String nickname;
 
+    @Column(nullable = false, length = 100)
+    private String password;
+
     //프로필사진
     @Column(name="profile_path")
     private String profilePath;
-
-
-
 }

@@ -12,6 +12,7 @@ public class UserResponseDto {
     private String nickname;
     private String profilePath;
 
+
     @Builder
     public UserResponseDto(Long id, String email, String nickname, String profilePath) {
         this.id = id;

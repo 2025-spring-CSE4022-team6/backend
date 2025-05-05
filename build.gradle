@@ -25,15 +25,30 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot Starters
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-//	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.postgresql:postgresql:42.7.3' // PostgreSQL 의존성
-	implementation 'org.postgresql:postgresql:42.7.3'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly   'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly   'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// Lombok (compileOnly + annotationProcessor)
+	compileOnly    'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+	// Jakarta Annotations (for @PostConstruct)
+	implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+
+	// Database
+	runtimeOnly 'org.postgresql:postgresql:42.7.3'
+	//runtimeOnly 'com.h2database:h2' // 필요 시 주석 해제
+
+	// Testing
+	testImplementation     'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly       'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
@@ -41,7 +56,7 @@ tasks.named('test') {
 }
 
 jacoco {
-	toolVersion = "0.8.11"  // 최신 안정 버전
+	toolVersion = "0.8.11"
 }
 
 test {
@@ -52,7 +67,7 @@ test {
 jacocoTestReport {
 	reports {
 		html.required = true
-		xml.required = true
-		csv.required = false
+		xml.required  = true
+		csv.required  = false
 	}
 }
