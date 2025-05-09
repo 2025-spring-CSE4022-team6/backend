@@ -1,4 +1,4 @@
-package swteam6.backend.dto.response;
+package swteam6.backend.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

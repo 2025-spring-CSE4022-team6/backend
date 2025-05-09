@@ -8,13 +8,13 @@ INSERT INTO place (place_id, name, location, cuisine, score) VALUES
 (6, '맛집 6', '서울시 강남구 테헤란로 60', '구이', 0);
 
 -- User 6명
-INSERT INTO app_user (user_id, email, nickname, password, profile_path) VALUES
-(1, 'user1@test.com', '사용자1', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile1.png'),
-(2, 'user2@test.com', '사용자2', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile2.png'),
-(3, 'user3@test.com', '사용자3', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile3.png'),
-(4, 'user4@test.com', '사용자4', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile4.png'),
-(5, 'user5@test.com', '사용자5', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile5.png'),
-(6, 'user6@test.com', '사용자6', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile6.png');
+INSERT INTO app_user (user_id, email, nickname, profile_path) VALUES
+(1, 'user1@test.com', '사용자1', '/images/profile1.png'),
+(2, 'user2@test.com', '사용자2', '/images/profile2.png'),
+(3, 'user3@test.com', '사용자3', '/images/profile3.png'),
+(4, 'user4@test.com', '사용자4', '/images/profile4.png'),
+(5, 'user5@test.com', '사용자5', '/images/profile5.png'),
+(6, 'user6@test.com', '사용자6', '/images/profile6.png');
 
 -- Review 36개 (각 유저가 각 place에 대해 하나씩 리뷰)
 INSERT INTO review (id, user_id, place_id, title, comment, score) VALUES
@@ -59,6 +59,3 @@ INSERT INTO review (id, user_id, place_id, title, comment, score) VALUES
 (34, 6, 4, '맛집 4에 대한 리뷰 by 사용자6', '정말 좋아요.', 4.5),
 (35, 6, 5, '맛집 5에 대한 리뷰 by 사용자6', '또 올 거예요.', 4.6),
 (36, 6, 6, '맛집 6에 대한 리뷰 by 사용자6', '강추!', 5.0);
-
-SELECT setval('app_user_user_id_seq',
-              (SELECT COALESCE(MAX(user_id), 0) FROM app_user));

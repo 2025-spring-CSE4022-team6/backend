@@ -8,13 +8,13 @@ spring:
       thread-name-prefix: "Async-"
 
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:postgresql://localhost:5433/devopsdb
+    username: postgres
+    password: 1234
     driver-class-name: org.postgresql.Driver
   sql:
     init:
-      mode: always
+      mode: never
   jpa:
     defer-datasource-initialization: true
     show-sql: true
@@ -34,6 +34,7 @@ spring:
 logging:
   level:
     root: debug
+    org.hibernate.SQL: debug #실행되는 SQL 쿼리를 로그로 출력
   file:
     path: logs/app.log
 
