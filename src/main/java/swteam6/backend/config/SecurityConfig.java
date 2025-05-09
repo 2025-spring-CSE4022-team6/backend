@@ -35,7 +35,7 @@ public class SecurityConfig {
 
                 // 요청 인증/인가 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/signup", "/auth/login").permitAll()
+                        .requestMatchers("/auth/**", "/place/**", "/review/**").permitAll()
                         .requestMatchers("/error").permitAll()             // ← 여기에 /error 추가
                         .anyRequest().authenticated()
                 )
