@@ -14,7 +14,4 @@ public class PlaceDto {
     private String name;
     private double score;
     private List<SimpleReviewDto> reviews;
-
-
-
 }
