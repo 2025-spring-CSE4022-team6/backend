@@ -8,9 +8,9 @@ spring:
       thread-name-prefix: "Async-"
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/devopsdb
-    username: postgres
-    password: 1234
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   sql:
     init:
@@ -34,6 +34,9 @@ spring:
 logging:
   level:
     root: debug
+    org:
+      springframework:
+      security: DEBUG
   file:
     path: logs/app.log
 
@@ -41,3 +44,6 @@ server:
   error:
     include-message: always
     include-stacktrace: always
+    
+jwt:
+  secret: abcdefghijk
