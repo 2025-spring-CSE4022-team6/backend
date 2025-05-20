@@ -1,4 +1,4 @@
-package swteam6.backend.config;
+package swteam6.backend.security;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

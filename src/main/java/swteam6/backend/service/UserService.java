@@ -5,7 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import swteam6.backend.config.JwtTokenProvider;
+import swteam6.backend.exception.InvalidPasswordException;
+import swteam6.backend.exception.UserAlreadyExistsException;
+import swteam6.backend.exception.UserNotFoundException;
+import swteam6.backend.security.JwtTokenProvider;
 import swteam6.backend.dto.request.LoginRequestDto;
 import swteam6.backend.dto.response.LoginResponseDto;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +37,7 @@ public class UserService {
     public UserResponseDto signup(UserSignupDto signupDto) {
         
         if (userRepository.existsByEmail(signupDto.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new UserAlreadyExistsException("이미 존재하는 이메일입니다.");
         }
         
         User user = signupDto.toEntity(passwordEncoder);
@@ -45,10 +48,10 @@ public class UserService {
     //로그인
     public LoginResponseDto login(LoginRequestDto req) {
         User user = userRepository.findByEmail(req.getEmail())
-                .orElseThrow(() -> new BadCredentialsException("존재하지 않는 유저입니다."));
+                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 유저입니다."));
 
         if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("잘못된 이메일 또는 비밀번호입니다.");
+            throw new InvalidPasswordException("잘못된 이메일 또는 비밀번호입니다.");
         }
 
         String token = jwtTokenProvider.generateToken(user);
@@ -57,7 +60,7 @@ public class UserService {
 
     public ProfileResponse getUserProfile(String email) {
         User user=userRepository.findByEmail(email)
-                .orElseThrow(()->new EntityNotFoundException("해당 email의 유저를 찾을 수 없습니다."));
+                .orElseThrow(()->new UserNotFoundException("해당 email의 유저를 찾을 수 없습니다."));
 
         List<Review> reviews=reviewRepository.findAllByUser(user);
         List<SimpleReviewDto> simpleReviewDtoList=reviews.stream()
