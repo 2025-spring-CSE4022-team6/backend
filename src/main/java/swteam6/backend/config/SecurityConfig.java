@@ -3,6 +3,7 @@ package swteam6.backend.config;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -47,7 +48,7 @@ public class SecurityConfig {
 
                 // 요청 인증/인가 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/review").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/review").authenticated()
                         .requestMatchers("/user/profile").authenticated()
                         .anyRequest().permitAll()
                 )
