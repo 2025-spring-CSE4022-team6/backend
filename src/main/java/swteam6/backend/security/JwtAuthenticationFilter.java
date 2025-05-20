@@ -1,4 +1,4 @@
-package swteam6.backend.config;
+package swteam6.backend.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

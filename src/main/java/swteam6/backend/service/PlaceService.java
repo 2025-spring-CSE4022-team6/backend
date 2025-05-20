@@ -7,6 +7,7 @@ import swteam6.backend.dto.response.PlaceResponse;
 import swteam6.backend.dto.response.SimpleReviewDto;
 import swteam6.backend.entity.Place;
 import swteam6.backend.entity.Review;
+import swteam6.backend.exception.PlaceNotFoundException;
 import swteam6.backend.repository.PlaceRepository;
 import swteam6.backend.repository.ReviewRepository;
 import swteam6.backend.repository.UserRepository;
@@ -34,7 +35,7 @@ public class PlaceService {
     //음식점 상세페이지 조회
     public PlaceResponse getPlaceList(Long id) {
         Place place=placeRepository.findById(id).
-                orElseThrow(()->new EntityNotFoundException("해당 ID의 장소를 찾을 수 없습니다."));
+                orElseThrow(()->new PlaceNotFoundException("해당 ID의 장소를 찾을 수 없습니다."));
 
         List<Review> reviews = reviewRepository.findTop3ByPlaceOrderByIdDesc(place);
 
