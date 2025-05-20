@@ -36,7 +36,7 @@ public class Review {
     private String comment;
 
     @Column(nullable = false)
-    private double Score;
+    private double score;
 
     //태그 목록
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)

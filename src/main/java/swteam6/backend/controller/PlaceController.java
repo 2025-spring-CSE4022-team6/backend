@@ -1,6 +1,7 @@
 package swteam6.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +27,8 @@ public class PlaceController {
     
     //[GET]음식점 상세페이지 조회
     @GetMapping("/{id}")
-    public ApiResponse<PlaceDto> getPlaceList(@PathVariable("id") Long id){
+    public ResponseEntity<ApiResponse<PlaceDto>> getPlaceList(@PathVariable("id") Long id){
         PlaceDto placeDto=placeService.getPlaceList(id);
-        return new ApiResponse<>(true,200,"음식점 상세 리뷰 조회 성공",placeDto);
+        return ResponseEntity.ok(new ApiResponse<>(true,200,"음식점 상세 리뷰 조회 성공",placeDto));
     }
 }

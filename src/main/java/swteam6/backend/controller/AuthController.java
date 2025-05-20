@@ -1,6 +1,7 @@
 package swteam6.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import swteam6.backend.dto.request.LoginRequestDto;
 import swteam6.backend.dto.response.LoginResponseDto;
@@ -18,15 +19,15 @@ public class AuthController {
 
     //[POST] 회원가입
     @PostMapping("/signup")
-    public ApiResponse<UserResponseDto> signup(@RequestBody UserSignupDto signupDto) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> signup(@RequestBody UserSignupDto signupDto) {
         UserResponseDto responseDto = userService.signup(signupDto);
-        return new ApiResponse<>(true, 200, "회원가입 성공", responseDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, 200, "회원가입 성공", responseDto));
     }
 
     //[POST] 로그인
     @PostMapping("/login")
-    public ApiResponse<LoginResponseDto> login(@RequestBody LoginRequestDto loginDto) {
+    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody LoginRequestDto loginDto) {
         LoginResponseDto responseDto = userService.login(loginDto);
-        return new ApiResponse<>(true, 200, "로그인 성공", responseDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, 200, "로그인 성공", responseDto));
     }
 }
