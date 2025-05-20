@@ -2,7 +2,6 @@ package swteam6.backend.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.stereotype.Service;
 import swteam6.backend.dto.response.PlaceDto;
 import swteam6.backend.dto.response.SimpleReviewDto;
@@ -34,12 +33,7 @@ public class PlaceService {
         List<Review> reviews = reviewRepository.findTop3ByPlaceOrderByIdDesc(place);
 
         List<SimpleReviewDto> reviewDtos = reviews.stream()
-                .map(r -> {
-                    SimpleReviewDto dto = new SimpleReviewDto();
-                    dto.setTitle(r.getTitle());
-                    dto.setScore(r.getScore());
-                    return dto;
-                })
+                .map(review -> SimpleReviewDto.of(review))
                 .toList();
 
         return PlaceDto.builder()

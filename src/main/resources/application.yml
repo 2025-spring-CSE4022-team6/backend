@@ -20,7 +20,7 @@ spring:
     show-sql: true
     database: postgresql
     hibernate:
-      ddl-auto: create-drop # 테이블 자동 생성 (운영 환경에서는 'none' 또는 'validate' 추천)
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect # PostgreSQL에 맞는 Hibernate dialect
@@ -45,5 +45,5 @@ server:
     include-message: always
     include-stacktrace: always
     
-jwt:
-  secret: abcdefghijk
+
+
