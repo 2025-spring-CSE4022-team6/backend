@@ -24,6 +24,9 @@ public class Place {
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private Cuisine cuisine;
+
+    @Column(nullable = true)
+    private String imagePath;
     
     private double score; //평균별점
 }
