@@ -17,7 +17,6 @@ import java.util.List;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,6 +41,11 @@ public class Review {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewTag> tags = new ArrayList<>();
 
-
-
+    public Review(User user, Place place, String title, String comment, double score) {
+        this.user = user;
+        this.place = place;
+        this.title = title;
+        this.comment = comment;
+        this.Score = score;
+    }
 }
