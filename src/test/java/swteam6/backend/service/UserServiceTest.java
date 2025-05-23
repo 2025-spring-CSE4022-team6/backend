@@ -2,15 +2,19 @@ package swteam6.backend.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import swteam6.backend.config.JwtTokenProvider;
 import swteam6.backend.dto.request.LoginRequestDto;
 import swteam6.backend.dto.response.LoginResponseDto;
 import swteam6.backend.dto.request.UserSignupDto;
 import swteam6.backend.dto.response.UserResponseDto;
 import swteam6.backend.entity.User;
+import swteam6.backend.exception.MissingSignupFieldException;
+import swteam6.backend.exception.UserAlreadyExistsException;
+import swteam6.backend.repository.ReviewRepository;
 import swteam6.backend.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import swteam6.backend.security.JwtTokenProvider;
 
+import java.util.MissingFormatArgumentException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,13 +26,15 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
     private UserService userService;
+    private ReviewRepository reviewRepository;
 
     @BeforeEach
     void setUp() {
         userRepository = mock(UserRepository.class);
         passwordEncoder = mock(PasswordEncoder.class);
         jwtTokenProvider = mock(JwtTokenProvider.class);
-        userService = new UserService(userRepository, passwordEncoder, jwtTokenProvider);
+        reviewRepository=mock(ReviewRepository.class);
+        userService = new UserService(userRepository, passwordEncoder, jwtTokenProvider,reviewRepository);
     }
 
     @Test
@@ -38,8 +44,7 @@ class UserServiceTest {
         signupDto.setEmail("test@example.com");
         signupDto.setNickname("Tester");
         signupDto.setPassword("1234");
-        signupDto.setProfilePath(null);
-        User user = signupDto.toEntity(passwordEncoder);
+        User user = signupDto.toEntity(signupDto,passwordEncoder);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
         // when
@@ -58,9 +63,9 @@ class UserServiceTest {
         missingEmail.setNickname("Tester");
         missingEmail.setPassword("1234");
 
-        assertThrows(IllegalArgumentException.class,
+        MissingSignupFieldException ex = assertThrows(MissingSignupFieldException.class,
                 () -> userService.signup(missingEmail),
-                "필수 정보가 누락되면 IllegalArgumentException을 던져야 합니다."
+                "필수 정보가 누락되면 MissingSignupFiledException을 던져야 합니다."
         );
         verify(userRepository, never()).save(any());
 
@@ -70,8 +75,9 @@ class UserServiceTest {
         missingPassword.setNickname("Tester");
         missingPassword.setPassword("");
 
-        assertThrows(IllegalArgumentException.class,
-                () -> userService.signup(missingPassword)
+        MissingSignupFieldException e = assertThrows(MissingSignupFieldException.class,
+                () -> userService.signup(missingEmail),
+                "필수 정보가 누락되면 MissingSignupFiledException을 던져야 합니다."
         );
         verify(userRepository, never()).save(any());
     }
@@ -87,7 +93,7 @@ class UserServiceTest {
         when(userRepository.existsByEmail("exist@example.com")).thenReturn(true);
 
         // when & then
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+        UserAlreadyExistsException ex = assertThrows(UserAlreadyExistsException.class,
                 () -> userService.signup(signupDto)
         );
         assertEquals("이미 존재하는 이메일입니다.", ex.getMessage());
