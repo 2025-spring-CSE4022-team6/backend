@@ -17,6 +17,7 @@ import java.util.List;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable=false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
