@@ -2,7 +2,8 @@ package swteam6.backend.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import swteam6.backend.config.JwtTokenProvider;
+import swteam6.backend.repository.ReviewRepository;
+import swteam6.backend.security.JwtTokenProvider;
 import swteam6.backend.dto.request.LoginRequestDto;
 import swteam6.backend.dto.response.LoginResponseDto;
 import swteam6.backend.dto.request.UserSignupDto;
@@ -21,6 +22,7 @@ class UserServiceTest {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
+    private ReviewRepository reviewRepository;
     private UserService userService;
 
     @BeforeEach
@@ -28,7 +30,8 @@ class UserServiceTest {
         userRepository = mock(UserRepository.class);
         passwordEncoder = mock(PasswordEncoder.class);
         jwtTokenProvider = mock(JwtTokenProvider.class);
-        userService = new UserService(userRepository, passwordEncoder, jwtTokenProvider);
+        reviewRepository = mock(ReviewRepository.class);
+        userService = new UserService(userRepository, passwordEncoder, jwtTokenProvider, reviewRepository);
     }
 
     @Test
