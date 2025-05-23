@@ -48,7 +48,7 @@ public class SecurityConfig {
 
                 // 요청 인증/인가 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST,"/review").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/review/**").authenticated()
                         .requestMatchers("/user/profile").authenticated()
                         .anyRequest().permitAll()
                 )
