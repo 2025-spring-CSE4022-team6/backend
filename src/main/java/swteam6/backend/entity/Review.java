@@ -46,6 +46,6 @@ public class Review {
         this.place = place;
         this.title = title;
         this.comment = comment;
-        this.Score = score;
+        this.score = score;
     }
 }

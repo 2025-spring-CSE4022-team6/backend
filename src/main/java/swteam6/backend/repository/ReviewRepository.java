@@ -13,6 +13,5 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     List<Review> findTop3ByPlaceOrderByIdDesc(Place place);
 
 
-    //특정 user + place 에 대한 모든 리뷰를 ID 내림차순(최신 순)으로 조회
-    List<Review> findByUserAndPlaceOrderByIdDesc(User user, Place place);
+    List<Review> findAllByUser(User user);
 }

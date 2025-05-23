@@ -10,9 +10,6 @@ import swteam6.backend.dto.response.ApiResponse;
 import swteam6.backend.entity.Review;
 import swteam6.backend.service.ReviewService;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/review")
 @RequiredArgsConstructor
@@ -27,17 +24,10 @@ public class ReviewController {
     }
 
     //[GET] 리뷰 상세 조회
-    @GetMapping
-    public ApiResponse<List<ReviewDetailDto>> getReviewDetails(
-            @RequestParam Long userId,
-            @RequestParam Long placeId) {
-
-        List<Review> reviews = reviewService.findAllByUserAndPlace(userId, placeId);
-
-        List<ReviewDetailDto> dtoList = reviews.stream()
-                .map(ReviewDetailDto::new)
-                .collect(Collectors.toList());
-
-        return new ApiResponse<>(true, 200, "리뷰 상세 조회 성공", dtoList);
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ReviewDetailDto>> getReviewDetail(@PathVariable Long id) {
+        Review review = reviewService.findById(id);
+        ReviewDetailDto response = new ReviewDetailDto(review);
+        return ResponseEntity.ok(new ApiResponse<>(true, 200, "리뷰 상세 조회 성공", response));
     }
 }
