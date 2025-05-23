@@ -14,7 +14,6 @@ import swteam6.backend.service.ReviewService;
 @RequestMapping("/review")
 @RequiredArgsConstructor
 public class ReviewController {
-
     private final ReviewService reviewService;
 
     //[POST] 리뷰 작성

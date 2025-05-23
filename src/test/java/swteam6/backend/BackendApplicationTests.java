@@ -3,19 +3,25 @@ package swteam6.backend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import swteam6.backend.service.ReviewService;
-import swteam6.backend.service.UserService;
+import swteam6.backend.service.*;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
 class BackendApplicationTests {
 
-	@Autowired
-	ReviewService reviewService;
+	private final PlaceService placeService;
+	private final ReviewService reviewService;
+	private final UserService userService;
 
 	@Autowired
-	UserService userService;
+	public BackendApplicationTests(PlaceService placeService,
+								   ReviewService reviewService,
+								   UserService userService) {
+		this.placeService = placeService;
+		this.reviewService = reviewService;
+		this.userService = userService;
+	}
 
 	@Test
 	void contextLoads() {

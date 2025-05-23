@@ -60,5 +60,5 @@ INSERT INTO review (user_id, place_id, title, comment, score) VALUES
 (6, 5, '맛집 5에 대한 리뷰 by 사용자6', '또 올 거예요.', 4.6),
 (6, 6, '맛집 6에 대한 리뷰 by 사용자6', '강추!', 5.0);
 
---SELECT setval('app_user_user_id_seq',
---              (SELECT COALESCE(MAX(user_id), 0) FROM app_user));
+SELECT setval('app_user_user_id_seq',
+              (SELECT COALESCE(MAX(user_id), 0) FROM app_user));

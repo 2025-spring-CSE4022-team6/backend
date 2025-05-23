@@ -38,7 +38,7 @@ public class ReviewService {
                 requestDto.getTitle(),
                 requestDto.getComment(),
                 requestDto.getScore(),
-                null // tags 비움
+                null
         );
 
         Review savedReview = reviewRepository.save(review);
