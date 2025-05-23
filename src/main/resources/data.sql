@@ -1,20 +1,20 @@
 -- Place 6개
-INSERT INTO place (place_id, name, location, cuisine, score) VALUES
-(1, '맛집 1', '서울시 강남구 테헤란로 10', '한식', 3.4),
-(2, '맛집 2', '서울시 강남구 테헤란로 20', '중식', 5.0),
-(3, '맛집 3', '서울시 강남구 테헤란로 30', '일식', 2.7),
-(4, '맛집 4', '서울시 강남구 테헤란로 40', '양식', 0),
-(5, '맛집 5', '서울시 강남구 테헤란로 50', '분식', 0),
-(6, '맛집 6', '서울시 강남구 테헤란로 60', '구이', 0);
+INSERT INTO place (name, location, cuisine, score) VALUES
+('맛집 1', '서울시 강남구 테헤란로 10', '한식', 3.4),
+('맛집 2', '서울시 강남구 테헤란로 20', '중식', 5.0),
+('맛집 3', '서울시 강남구 테헤란로 30', '일식', 2.7),
+('맛집 4', '서울시 강남구 테헤란로 40', '양식', 0),
+('맛집 5', '서울시 강남구 테헤란로 50', '분식', 0),
+('맛집 6', '서울시 강남구 테헤란로 60', '구이', 0);
 
 -- User 6명
-INSERT INTO app_user (user_id, email, nickname, password, profile_path) VALUES
-(1, 'user1@test.com', '사용자1', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile1.png'),
-(2, 'user2@test.com', '사용자2', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile2.png'),
-(3, 'user3@test.com', '사용자3', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile3.png'),
-(4, 'user4@test.com', '사용자4', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile4.png'),
-(5, 'user5@test.com', '사용자5', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile5.png'),
-(6, 'user6@test.com', '사용자6', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile6.png');
+INSERT INTO app_user (email, nickname, password, profile_path) VALUES
+('user1@test.com', '사용자1', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile1.png'),
+('user2@test.com', '사용자2', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile2.png'),
+('user3@test.com', '사용자3', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile3.png'),
+('user4@test.com', '사용자4', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile4.png'),
+('user5@test.com', '사용자5', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile5.png'),
+('user6@test.com', '사용자6', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile6.png');
 
 -- Review 36개 (각 유저가 각 place에 대해 하나씩 리뷰)
 INSERT INTO review (user_id, place_id, title, comment, score) VALUES
