@@ -17,6 +17,7 @@ public class PlaceResponse {
     private String location;
     private Cuisine cuisine;
     private String imagePath;
+    private int totalReviews;
     private List<SimpleReviewDto> reviews;
 
 
@@ -28,6 +29,7 @@ public class PlaceResponse {
                 .score(place.getScore())
                 .cuisine(place.getCuisine())
                 .imagePath(place.getImagePath())
+                .totalReviews(place.getTotalReviews())
                 .build();
     }
 }

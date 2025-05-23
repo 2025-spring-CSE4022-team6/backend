@@ -29,4 +29,11 @@ public class Place {
     private String imagePath;
     
     private double score; //평균별점
+
+    @Column(nullable=false)
+    private int totalReviews;
+
+    public void updateTotalReviews(int change){
+        this.totalReviews+=change;
+    }
 }
