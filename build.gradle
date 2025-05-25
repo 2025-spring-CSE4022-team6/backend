@@ -68,3 +68,12 @@ jacocoTestReport {
 		csv.required  = false
 	}
 }
+
+sonar {
+	properties {
+		property "sonar.projectKey", "2025-spring-CSE4022-team6_backend"
+		property "sonar.organization", "2025-spring-cse4022-team6"
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+	}
+}
