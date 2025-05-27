@@ -24,11 +24,11 @@ public class ReviewService {
 
     //리뷰 작성
     @Transactional
-    public ReviewResponseDto createReview(ReviewCreateDto requestDto) {
-        Place place = placeRepository.findById(requestDto.getPlaceId())
+    public ReviewResponseDto createReview(Long id, String email,ReviewCreateDto requestDto) {
+        Place place = placeRepository.findById(id)
                 .orElseThrow(() -> new PlaceNotFoundException("해당 장소가 존재하지 않습니다."));
 
-        User user = userRepository.findById(requestDto.getUserId())
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("해당 사용자가 존재하지 않습니다."));
 
         Review review = new Review(
@@ -42,7 +42,8 @@ public class ReviewService {
         );
 
         Review savedReview = reviewRepository.save(review);
-
+        place.updateTotalReviews(1);
+        placeRepository.save(place);
         return ReviewResponseDto.fromEntity(savedReview);
     }
     //리뷰 상세 조회

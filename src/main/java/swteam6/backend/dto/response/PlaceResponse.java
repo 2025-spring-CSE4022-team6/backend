@@ -17,17 +17,27 @@ public class PlaceResponse {
     private String location;
     private Cuisine cuisine;
     private String imagePath;
+    private double langitude;
+    private double longitude;
+    private int totalReviews;
     private List<SimpleReviewDto> reviews;
+    private List<String> tagList;
 
 
-    public static PlaceResponse of(Place place) {
+    public static PlaceResponse of(Place place, List<String> tagList) {
         return PlaceResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
                 .location(place.getLocation())
                 .score(place.getScore())
+                .langitude(place.getLongitude())
+                .longitude(place.getLongitude())
                 .cuisine(place.getCuisine())
                 .imagePath(place.getImagePath())
+                .totalReviews(place.getTotalReviews())
+                .tagList(tagList)
                 .build();
     }
+
+
 }

@@ -14,15 +14,13 @@ public class UserSignupDto{
     private String email;
     private String nickname;
     private String password;
-    private String profilePath;
 
-    public User toEntity(PasswordEncoder passwordEncoder) {
-        return new User(
-                null,
-                this.email,
-                this.nickname,
-                passwordEncoder.encode(this.password),  // 🔥 인코딩해서 엔티티에 넣음
-                this.profilePath
-        );
+
+    public User toEntity(UserSignupDto signupDto,PasswordEncoder passwordEncoder) {
+        return User.builder()
+                .email(signupDto.getEmail())
+                .nickname(signupDto.getNickname())
+                .password(passwordEncoder.encode(signupDto.getPassword()))
+                .build();// 인코딩해서 엔티티에 넣음
     }
 }
