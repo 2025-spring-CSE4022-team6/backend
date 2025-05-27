@@ -24,6 +24,12 @@ public class Place {
     @Column(nullable=false)
     private String location;
 
+    @Column(nullable=false)
+    private double latitude;
+
+    @Column(nullable=false)
+    private double longitude;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private Cuisine cuisine;
