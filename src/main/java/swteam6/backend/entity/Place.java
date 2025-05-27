@@ -2,7 +2,10 @@ package swteam6.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import swteam6.backend.enums.Cuisine;
+
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -24,6 +27,19 @@ public class Place {
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private Cuisine cuisine;
+
+    @Column(nullable = true)
+    private String imagePath;
     
     private double score; //평균별점
+
+    @Column(nullable=false)
+    private int totalReviews;
+
+
+    public void updateTotalReviews(int change){
+        this.totalReviews+=change;
+    }
+
+
 }
