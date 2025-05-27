@@ -32,4 +32,4 @@ jobs:
       - name: SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew sonarqube -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
