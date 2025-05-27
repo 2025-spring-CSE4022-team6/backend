@@ -19,9 +19,10 @@ public class PlaceResponse {
     private String imagePath;
     private int totalReviews;
     private List<SimpleReviewDto> reviews;
+    private List<String> tagList;
 
 
-    public static PlaceResponse of(Place place) {
+    public static PlaceResponse of(Place place, List<String> tagList) {
         return PlaceResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
@@ -30,6 +31,9 @@ public class PlaceResponse {
                 .cuisine(place.getCuisine())
                 .imagePath(place.getImagePath())
                 .totalReviews(place.getTotalReviews())
+                .tagList(tagList)
                 .build();
     }
+
+
 }

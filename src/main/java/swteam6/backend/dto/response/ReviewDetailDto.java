@@ -23,7 +23,7 @@ public class ReviewDetailDto {
         this.writer = review.getUser().getNickname();
         this.placeName = review.getPlace().getName();
         this.tags = review.getTags().stream()
-                .map(tag -> tag.getTag().toString()) // enum -> 문자열
+                .map(tag -> tag.getDescription()) // enum -> 문자열
                 .collect(Collectors.toList());
     }
 }
