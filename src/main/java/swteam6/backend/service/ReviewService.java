@@ -42,7 +42,8 @@ public class ReviewService {
         );
 
         Review savedReview = reviewRepository.save(review);
-
+        place.updateTotalReviews(1);
+        placeRepository.save(place);
         return ReviewResponseDto.fromEntity(savedReview);
     }
     //리뷰 상세 조회

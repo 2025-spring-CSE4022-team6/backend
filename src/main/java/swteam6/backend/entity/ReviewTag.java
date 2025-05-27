@@ -5,6 +5,7 @@ import swteam6.backend.enums.*;
 
 @Entity
 @Getter
+
 public class ReviewTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

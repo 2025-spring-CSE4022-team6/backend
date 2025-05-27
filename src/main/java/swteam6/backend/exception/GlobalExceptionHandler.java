@@ -34,6 +34,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
 
+    @ExceptionHandler(MissingSignupFieldException.class)
+    public ResponseEntity<ApiResponse> handleMissingSignupFieldException(MissingSignupFieldException e){
+        return buildErrorResponse(HttpStatus.BAD_REQUEST,e.getMessage());
+    }
+
 
     private ResponseEntity<ApiResponse> buildErrorResponse(HttpStatus httpStatus, String message) {
         ApiResponse response=new ApiResponse(false,httpStatus.value(),message);

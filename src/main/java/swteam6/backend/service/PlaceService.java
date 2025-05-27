@@ -7,12 +7,17 @@ import swteam6.backend.dto.response.PlaceResponse;
 import swteam6.backend.dto.response.SimpleReviewDto;
 import swteam6.backend.entity.Place;
 import swteam6.backend.entity.Review;
+import swteam6.backend.entity.ReviewTag;
+import swteam6.backend.enums.Tag;
 import swteam6.backend.exception.PlaceNotFoundException;
 import swteam6.backend.repository.PlaceRepository;
 import swteam6.backend.repository.ReviewRepository;
 import swteam6.backend.repository.UserRepository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +31,26 @@ public class PlaceService {
     //메인화면 조회
     public List<PlaceResponse> getPlaces(){
         List<Place> places=placeRepository.findAll();
+
         List<PlaceResponse> placeResponses=places.stream()
-                .map(place->PlaceResponse.of(place))
+                .map(place->PlaceResponse.of(place,calculateTopTags(getReviewList(place))))
                 .toList();
         return placeResponses;
     }
+
+    private List<String> calculateTopTags(List<Review> reviews) {
+        return reviews.stream()
+                .flatMap(r -> r.getReviewTags().stream())
+                .map(ReviewTag::getTag)                    // Tag 추출
+                .collect(Collectors.groupingBy(t -> t,
+                        Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.<Tag, Long>comparingByValue().reversed())
+                .limit(3)
+                .map(e -> e.getKey().getDescription())
+                .collect(Collectors.toList());
+    }
+
 
     //음식점 상세페이지 조회
     public PlaceResponse getPlaceList(Long id) {
@@ -50,5 +70,13 @@ public class PlaceService {
                 .reviews(reviewDtos)
                 .build();
     }
+
+    private List<Review> getReviewList(Place place) {
+        List<Review> reviews=reviewRepository.findAllByPlace(place);
+        return reviews;
+    }
+
+
+
 
 }
