@@ -6,6 +6,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swteam6.backend.exception.InvalidPasswordException;
+import swteam6.backend.exception.MissingSignupFieldException;
 import swteam6.backend.exception.UserAlreadyExistsException;
 import swteam6.backend.exception.UserNotFoundException;
 import swteam6.backend.security.JwtTokenProvider;
@@ -35,12 +36,16 @@ public class UserService {
     //회원가입
     @Transactional
     public UserResponseDto signup(UserSignupDto signupDto) {
+
+        if(signupDto.getEmail()==null||signupDto.getPassword()==null||signupDto.getNickname()==null){
+            throw new MissingSignupFieldException("이메일, 패스워드, 닉네임은 모두 필수항목입니다.");
+        }
         
         if (userRepository.existsByEmail(signupDto.getEmail())) {
             throw new UserAlreadyExistsException("이미 존재하는 이메일입니다.");
         }
         
-        User user = signupDto.toEntity(passwordEncoder);
+        User user = signupDto.toEntity(signupDto,passwordEncoder);
         User savedUser = userRepository.save(user);
         return UserResponseDto.fromEntity(savedUser);
     }
