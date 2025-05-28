@@ -51,13 +51,13 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: 22
           script: |
-            cd ~/team6
+            
 
             echo "EC2 접속 성공"
+            cd ~/team6
             docker-compose down
-            docker system prune -af || true
+            docker pull naaadang/devops-team6:lates
 
-  너 실행"
             docker-compose up -d
             docker image prune -f
 
