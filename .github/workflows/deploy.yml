@@ -30,8 +30,7 @@ jobs:
     
       - name: Build and Push Docker Image
         run: |
-          docker build --no-cache -t naaadang/devops-team6 .
-          docker tag naaadang/devops-team6 naaadang/devops-team6:latest
+          docker build --no-cache -t naaadang/devops-team6:latest .
           docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
           docker push naaadang/devops-team6:latest
 
@@ -48,29 +47,19 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: ubuntu
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           port: 22
           script: |
             cd ~/team6
 
-            echo " 이전 컨테이너 정리"
-            docker stop sgfood-app sgfood-db || true
-            docker rm sgfood-app sgfood-db || true
+            echo "EC2 접속 성공"
+            docker-compose down
             docker system prune -af || true
 
-            echo "최신 이미지 Pull"
-            docker pull naaadang/devops-team6:latest
-
-            echo "docker-compose.yml 존재 확인"
-            cd ~/team6
-
-            echo "DB 실행"
-            docker-compose up -d database
-            sleep 10
-
-            echo " 앱 실행"
-            docker-compose up -d app
+  너 실행"
+            docker-compose up -d
+            docker image prune -f
 
             echo "✅ 실행 중인 컨테이너"
             docker ps
