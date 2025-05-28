@@ -1,10 +1,11 @@
 package swteam6.backend.enums;
 
 public enum Cuisine {
+    요리주점,
+    맥주호프,
     한식,
-    양식,
-    중식,
-    분식,
-    일식,
-    구이;
+    이자카야,
+    치킨,
+    칵테일바
+
 }
