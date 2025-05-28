@@ -7,13 +7,17 @@ import swteam6.backend.dto.request.ReviewCreateDto;
 import swteam6.backend.dto.response.ReviewResponseDto;
 import swteam6.backend.entity.Place;
 import swteam6.backend.entity.Review;
+import swteam6.backend.entity.ReviewTag;
 import swteam6.backend.entity.User;
+import swteam6.backend.enums.Tag;
 import swteam6.backend.exception.PlaceNotFoundException;
 import swteam6.backend.exception.ReviewNotFoundException;
 import swteam6.backend.exception.UserNotFoundException;
 import swteam6.backend.repository.PlaceRepository;
 import swteam6.backend.repository.ReviewRepository;
 import swteam6.backend.repository.UserRepository;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -38,9 +42,15 @@ public class ReviewService {
                 requestDto.getTitle(),
                 requestDto.getComment(),
                 requestDto.getScore(),
-                null
+                new ArrayList<>()
         );
 
+        // 태그가 있으면 ReviewTag 엔티티로 변환해서 연결
+        if (requestDto.getTags() != null) {
+            for (Tag tagEnum : requestDto.getTags()) {
+                review.getReviewTags().add(new ReviewTag(review, tagEnum));
+            }
+        }
         Review savedReview = reviewRepository.save(review);
         place.updateTotalReviews(1);
         placeRepository.save(place);
