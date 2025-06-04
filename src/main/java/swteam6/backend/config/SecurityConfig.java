@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import swteam6.backend.security.JwtAuthenticationFilter;
 import swteam6.backend.security.JwtTokenProvider;
 
@@ -22,9 +23,8 @@ import java.util.Arrays;
 
 
 @Configuration
-@EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer{
 
     private final JwtTokenProvider jwtTokenProvider;
 
