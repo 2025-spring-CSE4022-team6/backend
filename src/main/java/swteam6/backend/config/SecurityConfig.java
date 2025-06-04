@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter; // 이 import를 추가하세요.
 import swteam6.backend.security.JwtAuthenticationFilter;
 import swteam6.backend.security.JwtTokenProvider;
 
@@ -38,7 +39,6 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
                 // CSRF는 REST API에선 보통 비활성화
                 .csrf(csrf -> csrf.disable())
 
@@ -57,8 +57,11 @@ public class SecurityConfig{
                 .formLogin(form -> form.disable())
                 // HTTP Basic은 선택적으로 유지하거나 비활성화
                 .httpBasic(Customizer.withDefaults())
+                // JWT 필터 등록
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                // CORS 필터를 Spring Security 필터 체인의 가장 앞에 추가
+                .addFilterBefore(corsFilter(), CorsFilter.class); // 이 부분을 추가/수정
 
         return http.build();
     }
@@ -66,15 +69,29 @@ public class SecurityConfig{
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:5173"); // 허용
+        // 허용할 오리진 (프론트엔드 URL)
+        configuration.addAllowedOrigin("http://localhost:5173");
         configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용 메서드
-        configuration.addAllowedHeader("*");     // 모든 헤더 허용
-        configuration.setAllowCredentials(true); // 쿠키/Authorization 허용
+        // 만약 프론트엔드가 실제 서버 IP로 직접 접근하는 경우가 있다면, 해당 IP도 추가해주세요.
+        // 예를 들어, 개발 서버에서 프론트엔드 빌드 파일을 호스팅하는 경우:
+        // configuration.addAllowedOrigin("http://13.124.170.215:3000"); // 예시
+
+        // 허용할 HTTP 메서드
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // 모든 헤더 허용
+        configuration.addAllowedHeader("*");
+        // 자격 증명 (쿠키, Authorization 헤더 등) 허용
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // 모든 경로에 대해 위에서 설정한 CORS 정책 적용
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-   
+
+    // CorsFilter 빈을 명시적으로 정의하여 Spring Security 필터 체인에 주입
+    @Bean
+    public CorsFilter corsFilter() {
+        return new CorsFilter(corsConfigurationSource());
+    }
 }
