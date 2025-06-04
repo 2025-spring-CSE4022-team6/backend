@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter; // 이 import를 추가하세요.
+import org.springframework.web.filter.CorsFilter; 
 import swteam6.backend.security.JwtAuthenticationFilter;
 import swteam6.backend.security.JwtTokenProvider;
 
@@ -39,6 +39,7 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
                 // CSRF는 REST API에선 보통 비활성화
                 .csrf(csrf -> csrf.disable())
 
@@ -61,7 +62,7 @@ public class SecurityConfig{
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class)
                 // CORS 필터를 Spring Security 필터 체인의 가장 앞에 추가
-                .addFilterBefore(corsFilter(), CorsFilter.class); // 이 부분을 추가/수정
+                .addFilterBefore(corsFilter(), CorsFilter.class); 
 
         return http.build();
     }
@@ -72,9 +73,6 @@ public class SecurityConfig{
         // 허용할 오리진 (프론트엔드 URL)
         configuration.addAllowedOrigin("http://localhost:5173");
         configuration.addAllowedOrigin("http://localhost:3000");
-        // 만약 프론트엔드가 실제 서버 IP로 직접 접근하는 경우가 있다면, 해당 IP도 추가해주세요.
-        // 예를 들어, 개발 서버에서 프론트엔드 빌드 파일을 호스팅하는 경우:
-        // configuration.addAllowedOrigin("http://13.124.170.215:3000"); // 예시
 
         // 허용할 HTTP 메서드
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
