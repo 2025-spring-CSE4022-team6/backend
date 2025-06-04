@@ -15,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import swteam6.backend.security.JwtAuthenticationFilter;
 import swteam6.backend.security.JwtTokenProvider;
 
@@ -24,7 +23,7 @@ import java.util.Arrays;
 
 @Configuration
 @AllArgsConstructor
-public class SecurityConfig implements WebMvcConfigurer{
+public class SecurityConfig{
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -38,6 +37,7 @@ public class SecurityConfig implements WebMvcConfigurer{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 // CSRF는 REST API에선 보통 비활성화
                 .csrf(csrf -> csrf.disable())
 
