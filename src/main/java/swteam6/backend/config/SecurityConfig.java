@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 
 @Configuration
+@EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig{
 
