@@ -58,8 +58,7 @@ public class SecurityConfig{
                 // HTTP Basic은 선택적으로 유지하거나 비활성화
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class) //필터 등록
-                .addFilterBefore(corsFilter(), CorsFilter.class);
+                        UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -77,8 +76,5 @@ public class SecurityConfig{
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    @Bean
-    public CorsFilter corsFilter() {
-        return new CorsFilter(corsConfigurationSource());
-    }
+   
 }
