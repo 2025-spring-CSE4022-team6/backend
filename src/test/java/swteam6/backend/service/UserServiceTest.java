@@ -14,7 +14,6 @@ import swteam6.backend.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import swteam6.backend.security.JwtTokenProvider;
 
-import java.util.MissingFormatArgumentException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -66,7 +66,10 @@ public class PlaceService {
         return PlaceResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
+                .location(place.getLocation())
+                .cuisine(place.getCuisine())
                 .score(place.getScore())
+                .totalReviews(place.getTotalReviews())
                 .reviews(reviewDtos)
                 .build();
     }
