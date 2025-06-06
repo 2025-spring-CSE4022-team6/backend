@@ -61,7 +61,7 @@ public class SecurityConfig {
                 // 기본 제공 폼로그인 비활성화
                 .formLogin(form -> form.disable())
                 // HTTP Basic은 선택적으로 유지하거나 비활성화
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(httpBasic -> httpBasic.disable())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class); //필터 등록
 
@@ -86,23 +86,5 @@ public class SecurityConfig {
     }
 
 
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173",
-                "http://localhost:3000",
-                "http://13.124.170.215:3000"
-        ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // 가장 먼저 실행되도록 우선순위 지정
-        return bean;
-    }
 }
