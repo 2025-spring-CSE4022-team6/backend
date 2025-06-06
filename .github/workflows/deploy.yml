@@ -56,8 +56,8 @@ jobs:
             echo "EC2 접속 성공"
             cd ~/team6
             docker-compose down
-            docker pull naaadang/devops-team6:lates
-
+            docker pull naaadang/devops-team6:latest
+            docker-compose pull
             docker-compose up -d
             docker image prune -f
 
