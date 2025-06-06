@@ -11,7 +11,7 @@ import swteam6.backend.dto.response.ReviewDetailDto;
 import swteam6.backend.dto.response.ApiResponse;
 import swteam6.backend.entity.Review;
 import swteam6.backend.service.ReviewService;
-
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://13.124.170.215:3000"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/review")
 @RequiredArgsConstructor

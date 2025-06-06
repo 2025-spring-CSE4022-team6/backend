@@ -2,16 +2,13 @@ package swteam6.backend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import swteam6.backend.dto.response.ApiResponse;
 import swteam6.backend.dto.response.PlaceResponse;
 import swteam6.backend.service.PlaceService;
 
 import java.util.List;
-
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://13.124.170.215:3000"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/place")
 @RequiredArgsConstructor
