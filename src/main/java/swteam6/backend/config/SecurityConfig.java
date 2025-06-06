@@ -23,9 +23,9 @@ import java.util.Arrays;
 
 
 @Configuration
-@AllArgsConstructor
 @EnableWebSecurity
-public class SecurityConfig{
+@AllArgsConstructor
+public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -77,6 +77,7 @@ public class SecurityConfig{
         configuration.setAllowCredentials(true); // 쿠키/Authorization 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // 모든 경로에 대해 위에서 설정한 CORS 정책 적용
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
