@@ -8,7 +8,7 @@ import swteam6.backend.dto.response.PlaceResponse;
 import swteam6.backend.service.PlaceService;
 
 import java.util.List;
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://13.124.170.215:3000"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://13.124.170.215:3000"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/place")
 @RequiredArgsConstructor
