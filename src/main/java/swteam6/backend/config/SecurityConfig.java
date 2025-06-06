@@ -41,9 +41,9 @@ public class SecurityConfig {
     // HTTP 보안 필터 체인
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   CorsConfigurationSource corsConfigurationSource) throws Exception {
+                                              CorsConfigurationSource corsConfigurationSource) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 // CSRF는 REST API에선 보통 비활성화
                 .csrf(csrf -> csrf.disable())
 
@@ -83,6 +83,14 @@ public class SecurityConfig {
         // 모든 경로에 대해 위에서 설정한 CORS 정책 적용
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    // SecurityConfig.java 파일에 다음 Bean 추가 (기존 corsConfigurationSource()는 유지)
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // 가장 높은 우선순위로 설정
+        return bean;
     }
 
 

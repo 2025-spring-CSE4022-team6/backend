@@ -1,4 +1,4 @@
-package swteam6.backend.security;
+package swteam6.backend.config;
 
 // DebugCorsFilter.java
 import jakarta.servlet.Filter;
