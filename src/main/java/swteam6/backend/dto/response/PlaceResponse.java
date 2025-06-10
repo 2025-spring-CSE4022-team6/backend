@@ -17,7 +17,7 @@ public class PlaceResponse {
     private String location;
     private Cuisine cuisine;
     private String imagePath;
-    private double langitude;
+    private double latitude;
     private double longitude;
     private int totalReviews;
     private List<SimpleReviewDto> reviews;
@@ -30,7 +30,7 @@ public class PlaceResponse {
                 .name(place.getName())
                 .location(place.getLocation())
                 .score(place.getScore())
-                .langitude(place.getLongitude())
+                .latitude(place.getLatitude())
                 .longitude(place.getLongitude())
                 .cuisine(place.getCuisine())
                 .imagePath(place.getImagePath())
