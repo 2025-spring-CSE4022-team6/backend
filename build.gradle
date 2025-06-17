@@ -45,12 +45,12 @@ dependencies {
 
 	// Database
 	runtimeOnly 'org.postgresql:postgresql:42.7.3'
-	//runtimeOnly 'com.h2database:h2' // 필요 시 주석 해제
+
 
 	// Testing
 	testImplementation     'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly       'org.junit.platform:junit-platform-launcher'
-
+	testImplementation 'com.h2database:h2' //추가
 
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
