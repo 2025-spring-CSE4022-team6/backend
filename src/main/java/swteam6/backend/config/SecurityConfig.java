@@ -1,8 +1,10 @@
 package swteam6.backend.config;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.Customizer;
@@ -15,6 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import swteam6.backend.security.JwtAuthenticationFilter;
 import swteam6.backend.security.JwtTokenProvider;
 
@@ -36,8 +40,10 @@ public class SecurityConfig {
 
     // HTTP 보안 필터 체인
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                              CorsConfigurationSource corsConfigurationSource) throws Exception {
         http
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 // CSRF는 REST API에선 보통 비활성화
                 .csrf(csrf -> csrf.disable())
 
@@ -55,7 +61,7 @@ public class SecurityConfig {
                 // 기본 제공 폼로그인 비활성화
                 .formLogin(form -> form.disable())
                 // HTTP Basic은 선택적으로 유지하거나 비활성화
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(httpBasic -> httpBasic.disable())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class); //필터 등록
 
@@ -66,12 +72,28 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:5173"); // 허용
+        configuration.addAllowedOrigin("http://localhost:3000"); // 허용
+        configuration.addAllowedOrigin("http://13.124.170.215:3000");
+        configuration.addAllowedOrigin("https://pubpick.vercel.app");
+
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용 메서드
         configuration.addAllowedHeader("*");     // 모든 헤더 허용
         configuration.setAllowCredentials(true); // 쿠키/Authorization 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // 모든 경로에 대해 위에서 설정한 CORS 정책 적용
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+    // SecurityConfig.java 파일에 다음 Bean 추가 (기존 corsConfigurationSource()는 유지)
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // 가장 높은 우선순위로 설정
+        return bean;
+    }
+
+
+
 }

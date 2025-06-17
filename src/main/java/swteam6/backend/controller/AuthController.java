@@ -10,6 +10,7 @@ import swteam6.backend.dto.response.UserResponseDto;
 import swteam6.backend.dto.response.ApiResponse;
 import swteam6.backend.service.UserService;
 
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://13.124.170.215:3000"}, allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")

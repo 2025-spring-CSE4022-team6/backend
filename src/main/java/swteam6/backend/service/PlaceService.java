@@ -67,15 +67,8 @@ public class PlaceService {
                 .map(review -> SimpleReviewDto.of(review))
                 .toList();
 
-        return PlaceResponse.builder()
-                .id(place.getId())
-                .name(place.getName())
-                .location(place.getLocation())
-                .cuisine(place.getCuisine())
-                .score(place.getScore())
-                .totalReviews(place.getTotalReviews())
-                .reviews(reviewDtos)
-                .build();
+        return PlaceResponse.of(place, calculateTopTags(getReviewList(place)));
+
     }
 
     private List<Review> getReviewList(Place place) {
