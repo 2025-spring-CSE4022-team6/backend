@@ -74,6 +74,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://localhost:5173"); // 허용
         configuration.addAllowedOrigin("http://localhost:3000"); // 허용
         configuration.addAllowedOrigin("http://13.124.170.215:3000");
+        configuration.addAllowedOrigin("https://pubpick.vercel.app");
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용 메서드
         configuration.addAllowedHeader("*");     // 모든 헤더 허용
