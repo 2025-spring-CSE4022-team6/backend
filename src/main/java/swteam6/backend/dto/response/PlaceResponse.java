@@ -24,6 +24,24 @@ public class PlaceResponse {
     private List<String> tagList;
 
 
+    //개별 조회
+    public static PlaceResponse of(Place place, List<String> tagList, List<SimpleReviewDto> reviews) {
+        return PlaceResponse.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .location(place.getLocation())
+                .score(place.getScore())
+                .latitude(place.getLatitude())
+                .longitude(place.getLongitude())
+                .cuisine(place.getCuisine())
+                .imagePath(place.getImagePath())
+                .totalReviews(place.getTotalReviews())
+                .reviews(reviews)
+                .tagList(tagList)
+                .build();
+    }
+
+    //전체
     public static PlaceResponse of(Place place, List<String> tagList) {
         return PlaceResponse.builder()
                 .id(place.getId())

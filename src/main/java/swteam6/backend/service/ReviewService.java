@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import swteam6.backend.dto.request.ReviewCreateDto;
+import swteam6.backend.dto.response.ReviewDetailDto;
 import swteam6.backend.dto.response.ReviewResponseDto;
 import swteam6.backend.entity.Place;
 import swteam6.backend.entity.Review;
@@ -57,8 +58,9 @@ public class ReviewService {
         return ReviewResponseDto.fromEntity(savedReview);
     }
     //리뷰 상세 조회
-    public Review findById(Long id) {
-        return reviewRepository.findById(id)
+    public ReviewDetailDto getReviewDeatail(Long id) {
+        Review review= reviewRepository.findById(id)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 ID의 리뷰를 찾을 수 없습니다"));
+        return ReviewDetailDto.of(review);
     }
 }
