@@ -30,7 +30,7 @@ public class ReviewController {
     //[GET] 리뷰 상세 조회
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ReviewDetailDto>> getReviewDetail(@PathVariable Long id) {
-        ReviewDetailDto response = reviewService.getReviewDeatail(id);
+        ReviewDetailDto response = reviewService.getReviewDetail(id);
         return ResponseEntity.ok(new ApiResponse<>(true, 200, "리뷰 상세 조회 성공", response));
     }
 }
