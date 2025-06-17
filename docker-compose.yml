@@ -27,8 +27,31 @@ services:
     ports:
       - "8081:8081"
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "5001:9090"
+    networks:
+      - spring-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "5002:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - spring-network
+
 volumes:
   postgres_data:
+  grafana-storage:
 
 networks:
   spring-network:
