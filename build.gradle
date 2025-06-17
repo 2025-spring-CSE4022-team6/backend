@@ -1,8 +1,9 @@
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.4'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'jacoco'
+	id "org.sonarqube" version "6.2.0.5505"
 }
 
 group = 'swteam6'
@@ -49,7 +50,13 @@ dependencies {
 	// Testing
 	testImplementation     'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly       'org.junit.platform:junit-platform-launcher'
+
+
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()
@@ -69,5 +76,14 @@ jacocoTestReport {
 		html.required = true
 		xml.required  = true
 		csv.required  = false
+	}
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "2025-spring-CSE4022-team6_backend"
+		property "sonar.organization", "2025-spring-cse4022-team6"
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
 	}
 }
