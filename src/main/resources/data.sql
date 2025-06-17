@@ -141,12 +141,12 @@ INSERT INTO review_tag (review_id, tag) VALUES
 -- 4. 음식점별 평점(score) 및 리뷰 수(total_reviews) 최종 UPDATE
 
 
-UPDATE place SET score = 4.3, total_reviews = 5 WHERE id = 1; -- 고주파
-UPDATE place SET score = 4.06, total_reviews = 5 WHERE id = 2; -- 홍등롱
-UPDATE place SET score = 4.58, total_reviews = 4 WHERE id = 3; -- 열려라 맥주창고
-UPDATE place SET score = 4.43, total_reviews = 4 WHERE id = 4; -- 서강포차
-UPDATE place SET score = 4.53, total_reviews = 3 WHERE id = 5; -- 옹고집
-UPDATE place SET score = 4.25, total_reviews = 4 WHERE id = 6; -- 낭만오지
-UPDATE place SET score = 4.23, total_reviews = 3 WHERE id = 7; -- 투다리
+UPDATE place SET score = 4.3, total_reviews = 5 WHERE place_id = 1; -- 고주파
+UPDATE place SET score = 4.06, total_reviews = 5 WHERE place_id = 2; -- 홍등롱
+UPDATE place SET score = 4.58, total_reviews = 4 WHERE place_id = 3; -- 열려라 맥주창고
+UPDATE place SET score = 4.43, total_reviews = 4 WHERE place_id = 4; -- 서강포차
+UPDATE place SET score = 4.53, total_reviews = 3 WHERE place_id = 5; -- 옹고집
+UPDATE place SET score = 4.25, total_reviews = 4 WHERE place_id = 6; -- 낭만오지
+UPDATE place SET score = 4.23, total_reviews = 3 WHERE place_id = 7; -- 투다리
 
 UPDATE place SET total_reviews = 0, score = 0.0 WHERE id >= 8;
