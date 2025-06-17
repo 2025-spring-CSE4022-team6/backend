@@ -13,9 +13,9 @@ public class ProfileResponse {
     private String email;
     private String nickname;
     private String profilePath;
-    private List<SimpleReviewDto> reviews;
+    private List<UserReviewResponseDto> reviews;
 
-    public static ProfileResponse of(User user, List<SimpleReviewDto> simpleReviewDtoList) {
+    public static ProfileResponse of(User user, List<UserReviewResponseDto> simpleReviewDtoList) {
         return ProfileResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
