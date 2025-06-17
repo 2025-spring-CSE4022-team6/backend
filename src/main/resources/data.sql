@@ -1,14 +1,5 @@
 
-SET FOREIGN_KEY_CHECKS = 0; -- 외래 키 제약조건 비활성화
-
-TRUNCATE TABLE review_tag;
-TRUNCATE TABLE review;
-TRUNCATE TABLE place;
-TRUNCATE TABLE user;
-
-SET FOREIGN_KEY_CHECKS = 1; -- 외래 키 제약조건 다시 활성화
-
-
+TRUNCATE TABLE "user", place, review, review_tag RESTART IDENTITY CASCADE;
 -- =================================================================
 -- DUMMY DATA INSERT
 -- =================================================================
