@@ -12,8 +12,8 @@ INSERT INTO app_user (email, nickname, password, profile_path) VALUES
 ('user3@test.com', '마포구주민', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile3.png'),
 ('user4@test.com', '우정원지박령', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile4.png'),
 ('user5@test.com', '데이트장인', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile5.png'),
-('user6@test.com', '신촌토박이', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile6.png');
-('user7@test.com', '프로회식러', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile7.png');
+('user6@test.com', '신촌토박이', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile6.png'),
+('user7@test.com', '프로회식러', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile7.png'),
 ('user8@test.com', '리뷰왕김리뷰', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile8.png');
 -- 2. 음식점 더미 데이터 (20곳)
 -- score와 total_reviews는 리뷰 데이터 생성 후 마지막에 UPDATE 
