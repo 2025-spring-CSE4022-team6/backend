@@ -1,11 +1,11 @@
 
-TRUNCATE TABLE "user", place, review, review_tag RESTART IDENTITY CASCADE;
+TRUNCATE TABLE app_user, place, review, review_tag RESTART IDENTITY CASCADE;
 -- =================================================================
 -- DUMMY DATA INSERT
 -- =================================================================
 
 -- 1. 사용자 더미 데이터 (10명)
-INSERT INTO user (nickname, email) VALUES
+INSERT INTO app_user (nickname, email) VALUES
 ('맛잘알', 'user1@example.com'),
 ('리뷰왕김리뷰', 'user2@example.com'),
 ('서강대미식가', 'user3@example.com'),
