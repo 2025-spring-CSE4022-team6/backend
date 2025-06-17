@@ -30,6 +30,6 @@ public class PlaceController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<PlaceResponse>> getPlaceList(@PathVariable("id") Long id){
         PlaceResponse response=placeService.getPlaceList(id);
-        return ResponseEntity.ok(new ApiResponse<>(true,200,"음식점 상세 리뷰 조회 성공",response));
+        return ResponseEntity.ok(new ApiResponse<>(true,200,"음식점 상세 정보 조회 성공",response));
     }
 }

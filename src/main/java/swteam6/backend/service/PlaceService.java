@@ -67,7 +67,7 @@ public class PlaceService {
                 .map(review -> SimpleReviewDto.of(review))
                 .toList();
 
-        return PlaceResponse.of(place, calculateTopTags(getReviewList(place)));
+        return PlaceResponse.of(place, calculateTopTags(getReviewList(place)),reviewDtos);
 
     }
 
