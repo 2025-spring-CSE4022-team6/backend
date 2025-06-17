@@ -149,4 +149,4 @@ UPDATE place SET score = 4.53, total_reviews = 3 WHERE place_id = 5; -- 옹고�
 UPDATE place SET score = 4.25, total_reviews = 4 WHERE place_id = 6; -- 낭만오지
 UPDATE place SET score = 4.23, total_reviews = 3 WHERE place_id = 7; -- 투다리
 
-UPDATE place SET total_reviews = 0, score = 0.0 WHERE id >= 8;
+UPDATE place SET total_reviews = 0, score = 0.0 WHERE place_id >= 8;
