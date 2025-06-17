@@ -5,18 +5,16 @@ TRUNCATE TABLE app_user, place, review, review_tag RESTART IDENTITY CASCADE;
 -- =================================================================
 
 -- 1. 사용자 더미 데이터 (10명)
-INSERT INTO app_user (nickname, email) VALUES
-('맛잘알', 'user1@example.com'),
-('리뷰왕김리뷰', 'user2@example.com'),
-('서강대미식가', 'user3@example.com'),
-('마포구주민', 'user4@example.com'),
-('혼술러', 'user5@example.com'),
-('프로회식러', 'user6@example.com'),
-('데이트장인', 'user7@example.com'),
-('가성비헌터', 'user8@example.com'),
-('분위기중요', 'user9@example.com'),
-('신촌토박이', 'user10@example.com');
 
+INSERT INTO app_user (email, nickname, password, profile_path) VALUES
+('user1@test.com', '맛잘알', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile1.png'),
+('user2@test.com', '서강대미식가', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile2.png'),
+('user3@test.com', '마포구주민', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile3.png'),
+('user4@test.com', '우정원지박령', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile4.png'),
+('user5@test.com', '데이트장인', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile5.png'),
+('user6@test.com', '신촌토박이', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile6.png');
+('user7@test.com', '프로회식러', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile7.png');
+('user8@test.com', '리뷰왕김리뷰', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile8.png');
 -- 2. 음식점 더미 데이터 (20곳)
 -- score와 total_reviews는 리뷰 데이터 생성 후 마지막에 UPDATE 
 INSERT INTO place (name, location, latitude, longitude, cuisine, score, total_reviews) VALUES
