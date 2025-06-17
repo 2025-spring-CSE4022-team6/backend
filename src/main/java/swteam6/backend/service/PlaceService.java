@@ -14,6 +14,7 @@ import swteam6.backend.repository.PlaceRepository;
 import swteam6.backend.repository.ReviewRepository;
 import swteam6.backend.repository.UserRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -45,7 +46,10 @@ public class PlaceService {
                 .collect(Collectors.groupingBy(t -> t,
                         Collectors.counting()))
                 .entrySet().stream()
-                .sorted(Map.Entry.<Tag, Long>comparingByValue().reversed())
+                .sorted(
+                        Comparator.<Map.Entry<Tag, Long>>comparingLong(Map.Entry::getValue).reversed()
+                                .thenComparing(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+                )
                 .limit(3)
                 .map(e -> e.getKey().getDescription())
                 .collect(Collectors.toList());
@@ -63,12 +67,8 @@ public class PlaceService {
                 .map(review -> SimpleReviewDto.of(review))
                 .toList();
 
-        return PlaceResponse.builder()
-                .id(place.getId())
-                .name(place.getName())
-                .score(place.getScore())
-                .reviews(reviewDtos)
-                .build();
+        return PlaceResponse.of(place, calculateTopTags(getReviewList(place)));
+
     }
 
     private List<Review> getReviewList(Place place) {
