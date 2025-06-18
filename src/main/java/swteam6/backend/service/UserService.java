@@ -5,18 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import swteam6.backend.dto.response.*;
 import swteam6.backend.exception.InvalidPasswordException;
 import swteam6.backend.exception.MissingSignupFieldException;
 import swteam6.backend.exception.UserAlreadyExistsException;
 import swteam6.backend.exception.UserNotFoundException;
 import swteam6.backend.security.JwtTokenProvider;
 import swteam6.backend.dto.request.LoginRequestDto;
-import swteam6.backend.dto.response.LoginResponseDto;
 import org.springframework.transaction.annotation.Transactional;
 import swteam6.backend.dto.request.UserSignupDto;
-import swteam6.backend.dto.response.ProfileResponse;
-import swteam6.backend.dto.response.SimpleReviewDto;
-import swteam6.backend.dto.response.UserResponseDto;
 import swteam6.backend.entity.Review;
 import swteam6.backend.entity.User;
 import swteam6.backend.repository.ReviewRepository;
@@ -68,8 +65,8 @@ public class UserService {
                 .orElseThrow(()->new UserNotFoundException("해당 email의 유저를 찾을 수 없습니다."));
 
         List<Review> reviews=reviewRepository.findAllByUser(user);
-        List<SimpleReviewDto> simpleReviewDtoList=reviews.stream()
-                .map(review->SimpleReviewDto.of(review))
+        List<UserReviewResponseDto> simpleReviewDtoList=reviews.stream()
+                .map(review->UserReviewResponseDto.of(review))
                 .toList();
 
         return ProfileResponse.of(user,simpleReviewDtoList);
