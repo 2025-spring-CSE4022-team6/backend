@@ -1,0 +1,46 @@
+
+name: JMeter Performance Test
+
+on:
+  workflow_run:
+    workflows: ["Deploy to EC2"]
+    # 해당 워크플로우가 '완료'되었을 때 이 워크플로우를 실행
+    types:
+      - completed
+    # main 브랜치에서 실행된 경우에만 해당
+    branches:
+      - main
+
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+    # 배포 워크플로우가 '성공'했을 때만 이 job을 실행
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Wait for application to start
+        run: |
+          echo "Waiting for 30 seconds for the application to stabilize..."
+          sleep 30
+
+      - name: Install and Run JMeter Test
+        run: |
+          echo "Starting JMeter performance test..."
+          sudo apt-get update
+          sudo apt-get install -y jmeter
+          
+          jmeter -n \
+                 -t jmeter/performance-test.jmx \
+                 -Jserver.host=${{ secrets.SERVER_HOST }} \
+                 -Jserver.port=443 \
+                 -l result.jtl \
+                 -e -o report
+
+      - name: Upload JMeter Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-test-report
+          path: report
