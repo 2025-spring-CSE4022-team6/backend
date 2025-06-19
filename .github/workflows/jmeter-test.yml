@@ -1,20 +1,16 @@
-
 name: JMeter Performance Test
 
 on:
   workflow_run:
     workflows: ["Deploy to EC2"]
-    # 해당 워크플로우가 '완료'되었을 때 이 워크플로우를 실행
     types:
       - completed
-    # main 브랜치에서 실행된 경우에만 해당
     branches:
       - main
 
 jobs:
   performance-test:
     runs-on: ubuntu-latest
-    # 배포 워크플로우가 '성공'했을 때만 이 job을 실행
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
@@ -39,8 +35,18 @@ jobs:
                  -l result.jtl \
                  -e -o report
 
+      - name: Check if report folder exists
+        run: |
+          ls -al
+          if [ -d "report" ]; then
+            echo "✅ Report folder exists"
+          else
+            echo "❌ Report folder not found"
+            exit 1
+          fi
+
       - name: Upload JMeter Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: jmeter-test-report
           path: report
