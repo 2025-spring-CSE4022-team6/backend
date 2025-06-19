@@ -40,7 +40,7 @@ jobs:
                  -e -o report
 
       - name: Upload JMeter Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with: 
           name: jmeter-test-report  #jmetertest
           path: report
