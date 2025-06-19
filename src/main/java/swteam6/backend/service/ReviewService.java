@@ -58,7 +58,7 @@ public class ReviewService {
         return ReviewResponseDto.fromEntity(savedReview);
     }
     //리뷰 상세 조회
-    public ReviewDetailDto getReviewDeatail(Long id) {
+    public ReviewDetailDto getReviewDetail(Long id) {
         Review review= reviewRepository.findById(id)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 ID의 리뷰를 찾을 수 없습니다"));
         return ReviewDetailDto.of(review);

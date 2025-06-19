@@ -18,7 +18,7 @@ INSERT INTO app_user (email, nickname, password, profile_path) VALUES
 ('user9@test.com', '돈까스제왕', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile9.png'),
 ('user10@test.com', '서강이', '$2a$10$DowJonesIndustrial/A9wG5Jp8O8CzFqY6K8mJjYwRfY8B8JH5J1Y', '/images/profile10.png');
 -- 2. 음식점 더미 데이터 (20곳)
--- score와 total_reviews는 리뷰 데이터 생성 후 마지막에 UPDATE 
+-- score와 total_reviews는 리뷰 데이터 생성 후 마지막에 UPDATE
 INSERT INTO place (name, location, latitude, longitude, cuisine, score, total_reviews) VALUES
 ('고주파', '서울특별시 마포구 광성로6길 28', 37.54865, 126.93880, '요리주점', 0, 0),
 ('홍등롱', '서울 마포구 광성로4길 11-5', 37.54949, 126.93774, '요리주점', 0, 0),
