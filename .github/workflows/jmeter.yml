@@ -2,7 +2,7 @@ name: JMeter Performance Test
 
 on:
   workflow_run:
-    workflows: ["Deploy to EC2"] # 또는 이전에 사용했던 "Deploy"
+    workflows: ["Deploy to EC2"] # 또는 "Deploy"
     types:
       - completed
     branches:
@@ -23,20 +23,21 @@ jobs:
           echo "Waiting for 30 seconds for the application to stabilize..."
           sleep 30
 
-      - name: Install and Run JMeter Test
+      - name: Install, Run, and Debug JMeter
+        # apt-get 대신 최신 버전을 직접 다운로드하여 설치합니다.
+        # jmeter가 실패하더라도 로그 확인을 위해 다음 스텝을 계속 진행
+        continue-on-error: true
         run: |
-          # 1. JMeter 설치 디렉토리 이름을 'jmeter_install'로 지정하여 충돌 방지
+          # --- 1. JMeter 설치 (최신 버전) ---
           JMETER_VERSION=5.6.3
           JMETER_INSTALL_DIR="jmeter_install"
           wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-$JMETER_VERSION.tgz
           tar -xzf apache-jmeter-$JMETER_VERSION.tgz
           mv apache-jmeter-$JMETER_VERSION $JMETER_INSTALL_DIR
-
-          # 2. 설치된 JMeter의 bin 경로를 시스템 PATH에 추가
           echo "$PWD/$JMETER_INSTALL_DIR/bin" >> $GITHUB_PATH
 
-          # 3. 테스트 실행 (리포지토리의 jmeter 폴더에 있는 jmx 파일 사용)
-          # -e -o 옵션은 대상 폴더가 없어야 하므로, 만약을 위해 rm 명령 추가
+          # --- 2. JMeter 테스트 실행 ---
+          echo "Starting JMeter command..."
           rm -rf report
           jmeter -n \
                  -t jmeter/performance-test.jmx \
@@ -44,14 +45,40 @@ jobs:
                  -Jserver.port=443 \
                  -l result.jtl \
                  -e -o report
-
-      - name: Check if report folder exists
+        
+      - name: Check logs and directory state
+        # 이전 스텝의 성공 여부와 관계없이 항상 이 스텝을 실행
+        if: always()
         run: |
+          echo "--- Current directory contents ---"
           ls -al
+          
+          echo
+          echo "--- Checking result.jtl file ---"
+          if [ -f "result.jtl" ]; then
+            echo "✅ result.jtl file created. Displaying first 10 lines:"
+            head -n 10 result.jtl
+          else
+            echo "❌ result.jtl file NOT found."
+          fi
+
+          echo
+          echo "--- Displaying jmeter.log for debugging ---"
+          # JMeter 로그 파일은 설치 경로의 bin 폴더 안에 생성됩니다.
+          LOG_FILE="jmeter_install/bin/jmeter.log"
+          if [ -f "$LOG_FILE" ]; then
+            echo "✅ Displaying contents of $LOG_FILE:"
+            cat "$LOG_FILE"
+          else
+            echo "❌ $LOG_FILE NOT found."
+          fi
+          
+      - name: Final check for report folder
+        run: |
           if [ -d "report" ]; then
             echo "✅ Report folder exists"
           else
-            echo "❌ Report folder not found"
+            echo "❌ Report folder was not created. Check the logs above."
             exit 1
           fi
 
