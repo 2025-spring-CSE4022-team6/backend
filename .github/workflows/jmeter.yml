@@ -1,0 +1,52 @@
+name: JMeter Performance Test
+
+on:
+  workflow_run:
+    workflows: ["Deploy to EC2"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Wait for application to start
+        run: |
+          echo "Waiting for 30 seconds for the application to stabilize..."
+          sleep 30
+
+      - name: Install and Run JMeter Test
+        run: |
+          echo "Starting JMeter performance test..."
+          sudo apt-get update
+          sudo apt-get install -y jmeter
+          
+          jmeter -n \
+                 -t jmeter/performance-test.jmx \
+                 -Jserver.host=${{ secrets.SERVER_HOST }} \
+                 -Jserver.port=443 \
+                 -l result.jtl \
+                 -e -o report
+
+      - name: Check if report folder exists
+        run: |
+          ls -al
+          if [ -d "report" ]; then
+            echo "✅ Report folder exists"
+          else
+            echo "❌ Report folder not found"
+            exit 1
+          fi
+
+      - name: Upload JMeter Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-test-report
+          path: report
