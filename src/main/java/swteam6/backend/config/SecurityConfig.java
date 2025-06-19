@@ -29,7 +29,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
-
+    //주석주석
     private final JwtTokenProvider jwtTokenProvider;
 
     // 비밀번호 암호화 빈
