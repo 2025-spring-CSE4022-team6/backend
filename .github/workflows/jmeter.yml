@@ -2,43 +2,48 @@ name: JMeter Performance Test
 
 on:
   workflow_run:
-    workflows: ["Deploy to EC2"]
+    workflows: ["Deploy to EC2"] # 또는 이전에 사용했던 "Deploy"
     types:
       - completed
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   performance-test:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Wait for application to start
         run: |
           echo "Waiting for 30 seconds for the application to stabilize..."
           sleep 30
 
-      - name: Install and Run JMeter Test (Latest Version)
+      - name: Install and Run JMeter Test
         run: |
-          # 최신 JMeter 다운로드 및 설치
+          # 1. JMeter 설치 디렉토리 이름을 'jmeter_install'로 지정하여 충돌 방지
           JMETER_VERSION=5.6.3
-          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-$JMETER_VERSION.tgz
+          JMETER_INSTALL_DIR="jmeter_install"
+          wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-$JMETER_VERSION.tgz
           tar -xzf apache-jmeter-$JMETER_VERSION.tgz
-          mv apache-jmeter-$JMETER_VERSION jmeter
-          echo "$PWD/jmeter/bin" >> $GITHUB_PATH
+          mv apache-jmeter-$JMETER_VERSION $JMETER_INSTALL_DIR
 
-          # 테스트 실행 및 리포트 생성
+          # 2. 설치된 JMeter의 bin 경로를 시스템 PATH에 추가
+          echo "$PWD/$JMETER_INSTALL_DIR/bin" >> $GITHUB_PATH
+
+          # 3. 테스트 실행 (리포지토리의 jmeter 폴더에 있는 jmx 파일 사용)
+          # -e -o 옵션은 대상 폴더가 없어야 하므로, 만약을 위해 rm 명령 추가
+          rm -rf report
           jmeter -n \
                  -t jmeter/performance-test.jmx \
                  -Jserver.host=${{ secrets.SERVER_HOST }} \
                  -Jserver.port=443 \
                  -l result.jtl \
                  -e -o report
-
 
       - name: Check if report folder exists
         run: |
