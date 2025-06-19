@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import swteam6.backend.entity.Review;
 import swteam6.backend.entity.Place;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
